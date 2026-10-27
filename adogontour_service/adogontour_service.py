@@ -171,6 +171,7 @@ def service_detail_block(title: str, description: rx.Component | str, icon: str,
         border_bottom="1px solid var(--gray-4)",
     )
 
+@rx.page(title="Adogontour Service - Home")
 def index():
     return rx.vstack(
         header_section(), # <-- Header inserito in cima
@@ -179,12 +180,13 @@ def index():
         width="100%",
     )
 
+@rx.page(route="/contatti", title="Adogontour Service - Contatti")
 def contatti():
     return rx.vstack(
         header_section(), # Richiama l'header che hai già creato
         rx.box(
             rx.heading("Contattaci", size="8", margin_bottom="1rem"),
-            rx.text("Scrivici per un preventivo sui servizi audio e luci.", size="5"),
+            rx.text("Pagina in costruzione.", size="5"),
             # Qui puoi aggiungere form, email, numeri di telefono, ecc.
             padding="4rem 2rem",
             align_items="center",
@@ -194,6 +196,7 @@ def contatti():
         min_height="100vh",
     )
 
+@rx.page(route="/chi-siamo", title="Adogontour Service - Chi Siamo")
 def chi_siamo():
     return rx.vstack(
         header_section(),
@@ -203,7 +206,7 @@ def chi_siamo():
             rx.vstack(
                 rx.heading("Chi Siamo", size="9", weight="bold"),
                 rx.text(
-                    "Una storia proiettata nel futuro tecnico dello spettacolo.", 
+                    "Venti anni nel settore degli eventi live, scopri chi siamo.", 
                     size="6", 
                     color_scheme="gray", 
                     text_align="center", 
@@ -215,7 +218,7 @@ def chi_siamo():
             padding_y="6rem",
             width="100%",
             background_image="linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('/about-bg.jpeg')",
-            background_position="center",
+            background_position="50% 30%",
             background_size="cover",
             border_bottom="1px solid var(--gray-5)",
         ),
@@ -227,8 +230,8 @@ def chi_siamo():
                 rx.flex(
                     rx.vstack(
                         rx.heading("Le Nostre Radici", size="7", color="var(--accent-11)"),
-                        rx.text("Adogontour Service nasce da Pier Francesco Leardi nel 2007. Nel corso degli anni si afferma come punto di riferimento per la fornitura tecnica nella provincia di Cuneo e non solo.", size="5", color_scheme="gray", line_height="1.6"),
-                        rx.text("Abbiamo curato la direzione tecnica e la fornitura per innumerevoli manifestazioni pubbliche. Dai numerosi eventi estivi sul territorio, fino al supporto di rassegne come Ted X Cuneo, la nostra esperienza sul campo ci permette di affrontare e risolvere ogni tipo di sfida tecnica.", size="5", color_scheme="gray", line_height="1.6"),
+                        rx.text("Adogontour Service nasce nel 2007 a Cuneo. Nel corso degli anni si afferma come punto di riferimento per la fornitura tecnica nella provincia e non solo.", size="5", color_scheme="gray", line_height="1.6"),
+                        rx.text("Dai numerosi eventi sul territorio, fino al supporto di rassegne come Ted X Cuneo, la nostra esperienza sul campo ci permette di affrontare e risolvere ogni tipo di sfida tecnica.", size="5", color_scheme="gray", line_height="1.6"),
                         spacing="4",
                         align_items="start",
                         flex="1",
@@ -307,6 +310,7 @@ def chi_siamo():
         min_height="100vh",
     )
 
+@rx.page(route="/servizi", title="Servizi - Adogontour")
 def servizi():
     return rx.vstack(
         header_section(),
@@ -386,17 +390,11 @@ def servizi():
         min_height="100vh",
     )
 
-def pagina_in_costruzione():
+@rx.page(route="/noleggio", title="Adogontour Service - Noleggio")
+def noleggio():
     return rx.vstack(
         header_section(),
-        rx.card(
-            rx.vstack(
-                rx.icon("hammer"),
-                rx.heading("Pagina in costruzione", size="7"),
-                align="center"
-            )
-        ),
-        align="center"
+        rx.text("Pagina in costruzione")
     )
 
 # The theme definition handles all the global styling
@@ -408,8 +406,3 @@ app = rx.App(
         radius="large",
     )
 )
-app.add_page(index, title="Adogontour Service")
-app.add_page(pagina_in_costruzione, route="/contatti", title="Contatti - Adogontour")
-app.add_page(chi_siamo, route="/chi-siamo", title="Chi Siamo - Adogontour")
-app.add_page(servizi, route="/servizi", title="Servizi - Adogontour")
-app.add_page(pagina_in_costruzione, route="/noleggio", title="Noleggio - Adogontour")
