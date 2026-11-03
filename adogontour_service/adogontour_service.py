@@ -17,7 +17,6 @@ def mobile_nav_link(label: str, href: str):
         class_name="mobile-menu-link",
     )
 
-
 def header_section():
     return rx.box(
         rx.box(
@@ -602,6 +601,46 @@ def noleggio():
     return rx.vstack(
         header_section(),
         rx.text("Pagina in costruzione")
+    )
+
+@rx.page(route="/404", title="404 - Pagina Non Trovata")
+def custom_404():
+    return rx.vstack(
+        header_section(),
+        
+        # 404 Content
+        rx.box(
+            rx.vstack(
+                rx.image("/logo.png", height=rx.breakpoints(initial="180px", md="250px")),
+                rx.heading("404", size=rx.breakpoints(initial="8", md="9"), weight="bold", color="var(--accent-11)"),
+                rx.heading("Pagina Non Trovata", size=rx.breakpoints(initial="5", md="7")),
+                rx.text(
+                    "La pagina che stai cercando non esiste o è stata spostata.",
+                    size=rx.breakpoints(initial="4", md="5"),
+                    color_scheme="gray",
+                    text_align="center"
+                ),
+                rx.button(
+                    "Torna alla Home",
+                    size=rx.breakpoints(initial="3", md="4"),
+                    radius="full",
+                    margin_top="1rem",
+                    on_click=rx.redirect("/")
+                ),
+                align_items="center",
+                spacing="4",
+            ),
+            width="100%",
+            padding_y=rx.breakpoints(initial="6rem", md="10rem"),
+            display="flex",
+            justify_content="center",
+            align_items="center",
+            flex="1", # Pushes the content to fill the remaining vertical space
+        ),
+        
+        spacing="0",
+        width="100%",
+        min_height="100vh",
     )
 
 # The theme definition handles all the global styling
