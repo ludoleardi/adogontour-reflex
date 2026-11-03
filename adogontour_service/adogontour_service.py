@@ -183,14 +183,92 @@ def index():
 @rx.page(route="/contatti", title="Adogontour Service - Contatti")
 def contatti():
     return rx.vstack(
-        header_section(), # Richiama l'header che hai già creato
+        header_section(),
+        
+        # Hero section per Contatti
         rx.box(
-            rx.heading("Contattaci", size="8", margin_bottom="1rem"),
-            rx.text("Pagina in costruzione.", size="5"),
-            # Qui puoi aggiungere form, email, numeri di telefono, ecc.
-            padding="4rem 2rem",
-            align_items="center",
+            rx.vstack(
+                rx.heading("Contatti", size="9", weight="bold"),
+                rx.text(
+                    "Siamo a disposizione per informazioni, preventivi e supporto tecnico.", 
+                    size="6", 
+                    color_scheme="gray", 
+                    text_align="center", 
+                    max_width="700px"
+                ),
+                align_items="center",
+                spacing="4",
+            ),
+            padding_y="6rem",
+            width="100%",
+            background_image="linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('/fari-magazzino.jpeg')",
+            background_position="50% 30%",
+            background_size="cover",
+            border_bottom="1px solid var(--gray-5)",
         ),
+        
+        # Contenitore principale delle informazioni di contatto
+        rx.box(
+            rx.flex(
+                # Email Card
+                rx.card(
+                    rx.vstack(
+                        rx.icon("mail", size=50, color="var(--accent-9)"),
+                        rx.heading("Email", size="6"),
+                        rx.text("Scrivici per richiedere un preventivo o per dettagli sui nostri servizi.", color_scheme="gray", text_align="center"),
+                        rx.link(
+                            "service@adogontour.it", 
+                            href="mailto:service@adogontour.it", 
+                            color="var(--accent-11)", 
+                            weight="bold", 
+                            size="5"
+                        ),
+                        align_items="center",
+                        spacing="4",
+                        padding="2rem",
+                    ),
+                    width="100%",
+                    max_width="400px",
+                    box_shadow="0 10px 30px rgba(0,0,0,0.2)",
+                    _hover={"transform": "translateY(-5px)", "transition": "transform 0.3s ease"},
+                ),
+                
+                # Telefono Card
+                rx.card(
+                    rx.vstack(
+                        rx.icon("phone", size=50, color="var(--accent-9)"),
+                        rx.heading("Telefono", size="6"),
+                        rx.text("Chiamaci per urgenze o per parlare direttamente con un nostro responsabile.", color_scheme="gray", text_align="center"),
+                        rx.link(
+                            "+39 366 817 1000",  # Inserisci qui il numero reale
+                            href="tel:+393668171000", 
+                            color="var(--accent-11)", 
+                            weight="bold", 
+                            size="5"
+                        ),
+                        align_items="center",
+                        spacing="4",
+                        padding="2rem",
+                    ),
+                    width="100%",
+                    max_width="400px",
+                    box_shadow="0 10px 30px rgba(0,0,0,0.2)",
+                    _hover={"transform": "translateY(-5px)", "transition": "transform 0.3s ease"},
+                ),
+                
+                direction={"base": "column", "md": "row"},
+                spacing="8",
+                justify="center",
+                align_items="center",
+                width="100%",
+                padding_y="5rem",
+            ),
+            width="100%",
+            max_width="1000px",
+            margin="0 auto",
+            padding_x=["2rem", "2rem", "0"],
+        ),
+
         spacing="0",
         width="100%",
         min_height="100vh",
@@ -268,7 +346,7 @@ def chi_siamo():
                     ),
                     rx.vstack(
                         rx.heading("Evoluzione e Innovazione", size="7", color="var(--accent-11)"),
-                        rx.text("Oggi, pur mantenendo le nostre radici, Adogontour è un service che punta alla massima efficienza attraverso la tecnologia e un approccio analitico ai flussi di lavoro.", size="5", color_scheme="gray", line_height="1.6"),
+                        rx.text("Oggi, pur mantenendo le proprie radici, Adogontour è un service che punta alla massima efficienza attraverso la tecnologia e un approccio analitico ai flussi di lavoro.", size="5", color_scheme="gray", line_height="1.6"),
                         rx.text("Gestiamo l'intera catena logistica con strumenti digitali proprietari per ottimizzare l'inventario e la gestione del magazzino.", size="5", color_scheme="gray", line_height="1.6"),
                         rx.text("Lavoriamo con standard industriali e console digitali di altissimo livello (DiGiCo, Chamsys, HK Audio) per garantire sempre stabilità e scalabilità in ogni produzione.", size="5", color_scheme="gray", line_height="1.6"),
                         spacing="4",
