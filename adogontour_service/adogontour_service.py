@@ -5,61 +5,140 @@ config = rx.Config(
     favicon="/favicon.ico",  # Percorso relativo alla cartella assets
 )
 
+
+def mobile_nav_link(label: str, href: str):
+    return rx.link(
+        label,
+        href=href,
+        width="100%",
+        padding="0.75rem",
+        text_align="left",
+        color_scheme="gray",
+        class_name="mobile-menu-link",
+    )
+
+
 def header_section():
     return rx.box(
-        rx.hstack(
-            # Blocco di sinistra
+        rx.box(
             rx.hstack(
-                rx.link("Servizi", href="/servizi", color_scheme="gray"),
-                rx.link("Chi Siamo", href="/chi-siamo", color_scheme="gray"),
-                spacing="5",
-                justify="end",
-                flex="1", 
-            ),
-            
-            # Logo Centrale
-            rx.center(
-                rx.link(
-                    rx.image(src="/logo.png", height="60px", width="auto"),
-                    href="/",
-                ),
-                padding_x="2rem",
-            ),
-
-            # Blocco di destra
-            rx.hstack(
-                # Link adiacenti al logo
+                # Blocco di sinistra
                 rx.hstack(
-                    rx.link("Noleggio", href="/noleggio", color_scheme="gray"),
-                    rx.link("Contatti", href="/contatti", color_scheme="gray"),
+                    rx.link("Servizi", href="/servizi", color_scheme="gray"),
+                    rx.link("Chi Siamo", href="/chi-siamo", color_scheme="gray"),
                     spacing="5",
+                    justify="end",
+                    flex="1",
                 ),
-                
-                # La "molla" che spinge il tasto successivo tutto a destra
-                rx.spacer(), 
-                
-                # Tasto Area Riservata
-                rx.link(
-                    rx.button(
-                        "Area Riservata", 
-                        variant="surface", # Usa uno stile diverso per farlo risaltare
-                        radius="full",
-                        color_scheme="gray",
-                        on_click=rx.redirect("https://adogontour-service.streamlit.app", is_external=True),
+
+                # Logo Centrale
+                rx.center(
+                    rx.link(
+                        rx.image(src="/logo.png", height="60px", width="auto"),
+                        href="/",
                     ),
+                    padding_x="2rem",
                 ),
+
+                # Blocco di destra
+                rx.hstack(
+                    # Link adiacenti al logo
+                    rx.hstack(
+                        rx.link("Noleggio", href="/noleggio", color_scheme="gray"),
+                        rx.link("Contatti", href="/contatti", color_scheme="gray"),
+                        spacing="5",
+                    ),
+
+                    # La "molla" che spinge il tasto successivo tutto a destra
+                    rx.spacer(),
+
+                    # Tasto Area Riservata
+                    rx.link(
+                        rx.button(
+                            "Area Riservata",
+                            variant="surface",
+                            radius="full",
+                            color_scheme="gray",
+                            on_click=rx.redirect("https://adogontour-service.streamlit.app", is_external=True),
+                        ),
+                    ),
+                    align_items="center",
+                    flex="1",
+                ),
+                width="100%",
                 align_items="center",
-                flex="1", 
             ),
+            display=rx.breakpoints(initial="none", md="block"),
             width="100%",
-            align_items="center",
+        ),
+        rx.box(
+            rx.hstack(
+                rx.link(
+                    rx.image(
+                        src="/logo.png",
+                        height=rx.breakpoints(initial="48px", sm="56px"),
+                        width="auto",
+                    ),
+                    href="/",
+                    aria_label="Adogontour Service - Home",
+                ),
+                rx.menu.root(
+                    rx.menu.trigger(
+                        rx.button(
+                            "Menu",
+                            variant="ghost",
+                            radius="full",
+                            aria_label="Apri o chiudi menu",
+                            class_name="mobile-menu-trigger",
+                        )
+                    ),
+                    rx.menu.content(
+                        rx.vstack(
+                            mobile_nav_link("Servizi", "/servizi"),
+                            mobile_nav_link("Chi Siamo", "/chi-siamo"),
+                            mobile_nav_link("Noleggio", "/noleggio"),
+                            mobile_nav_link("Contatti", "/contatti"),
+                            rx.link(
+                                "Area Riservata",
+                                href="https://adogontour-service.streamlit.app",
+                                is_external=True,
+                                width="100%",
+                                padding="0.75rem",
+                                text_align="center",
+                                color_scheme="gray",
+                                background_color="var(--accent-3)",
+                                border_radius="0.75rem",
+                            ),
+                            spacing="1",
+                            align_items="stretch",
+                            width="100%",
+                        ),
+                        padding="0.75rem",
+                        background_color="rgba(0, 0, 0, 0.96)",
+                        border="1px solid var(--gray-5)",
+                        border_radius="1rem",
+                        box_shadow="0 12px 30px rgba(0, 0, 0, 0.35)",
+                        side="bottom",
+                        align="end",
+                        side_offset=8,
+                        width="min(calc(100vw - 2rem), 24rem)",
+                        class_name="mobile-menu-panel",
+                    ),
+                    modal=False,
+                ),
+                width="100%",
+                align_items="center",
+                justify="between",
+            ),
+            display=rx.breakpoints(initial="block", md="none"),
+            width="100%",
         ),
         width="100%",
-        padding="1rem 2rem",
-        background_color="rgba(0, 0, 0, 0.8)", 
+        padding=rx.breakpoints(initial="0.75rem 1rem", md="1rem 2rem"),
+        background_color="rgba(0, 0, 0, 0.8)",
         backdrop_filter="blur(10px)",
         position="sticky",
-        height="10vh",
+        height=rx.breakpoints(initial="auto", md="10vh"),
         top="0",
         z_index="100",
         border_bottom="1px solid var(--gray-5)",
@@ -78,19 +157,33 @@ def info_card(title: str, description: str, icon: str, link: str):
         #on_click=rx.redirect(link),
         width="100%",
         max_width="350px",
+        class_name="hero-card",
+        transition="transform 0.25s ease, box-shadow 0.25s ease",
+        _hover={"transform": "translateY(-5px)", "box_shadow": "0 16px 36px rgba(0,0,0,0.28)"},
     )
 
 def hero_section():
     return rx.box(
         rx.vstack(
             # Puoi valutare di rimuovere o rimpicciolire questa immagine se preferisci averla solo nell'header
-            rx.heading("Adogontour Service", size="9", weight="bold"),
+            rx.heading(
+                "Adogontour Service",
+                size=rx.breakpoints(initial="7", md="9"),
+                weight="bold",
+                class_name="hero-title",
+            ),
             rx.text(
                 "Audio • Luci • Multimedia - Live • Conferenze • Corporate",
-                size="5",
+                size=rx.breakpoints(initial="3", md="5"),
                 color_scheme="gray",
+                class_name="hero-subtitle",
             ),
-            rx.button("Scopri di più", size="4", radius="full", on_click=rx.redirect("/chi-siamo")),
+            rx.button(
+                "Scopri di più",
+                size=rx.breakpoints(initial="3", md="4"),
+                radius="full",
+                on_click=rx.redirect("/chi-siamo"),
+            ),
             rx.spacer("\n\n"),
             rx.markdown("___"),
             rx.flex(
@@ -117,26 +210,40 @@ def hero_section():
                 justify_content="center",
                 width="100%",
             ),
-            rx.button("I nostri servizi", size="4", radius="full", on_click=rx.redirect("/servizi")),
+            rx.button(
+                "I nostri servizi",
+                size=rx.breakpoints(initial="3", md="4"),
+                radius="full",
+                on_click=rx.redirect("/servizi"),
+            ),
             spacing="5",
             align_items="center",
         ),
-        padding="8rem 2rem",
+        padding=rx.breakpoints(initial="4rem 1rem 3rem", md="8rem 2rem"),
         # A sleek dark gradient background for the hero
         background_image="linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('/hero-bg.jpeg')",
         background_size="cover",
         background_position="center",
         background_repeat="no-repeat",
         width="100%",
-        height="90vh",
+        height=rx.breakpoints(initial="auto", md="90vh"),
         text_align="center",
     )
 
 def service_detail_block(title: str, description: rx.Component | str, icon: str, reverse: bool = False):
     # La parte di testo
     content = rx.vstack(
-        rx.heading(title, size="7", color="var(--accent-11)"),
-        rx.text(description, size="5", color_scheme="gray", line_height="1.6"),
+        rx.heading(
+            title,
+            size=rx.breakpoints(initial="5", md="7"),
+            color="var(--accent-11)",
+        ),
+        rx.text(
+            description,
+            size=rx.breakpoints(initial="3", md="5"),
+            color_scheme="gray",
+            line_height="1.6",
+        ),
         spacing="4",
         align_items="start",
         flex="1",
@@ -147,9 +254,9 @@ def service_detail_block(title: str, description: rx.Component | str, icon: str,
         rx.icon(icon, size=100, color="var(--accent-9)"),
         background="var(--gray-3)",
         border_radius="1rem",
-        padding="3rem",
+        padding=rx.breakpoints(initial="2rem", md="3rem"),
         flex="1",
-        min_width="250px",
+        min_width=rx.breakpoints(initial="0", md="250px"),
         width="100%",
         box_shadow="0 10px 30px rgba(0,0,0,0.3)",
     )
@@ -161,14 +268,15 @@ def service_detail_block(title: str, description: rx.Component | str, icon: str,
         content,
         visual,
         direction={
-            "base": "column",       # Su smartphone (schermi piccoli): impila verticalmente
+            "initial": "column",    # Su smartphone (schermi piccoli): impila verticalmente
             "md": desktop_direction # Su tablet/desktop (schermi medi/grandi): affianca
         },
         spacing="7",
         align_items="center",
         width="100%",
-        padding_y="4rem",
+        padding_y=rx.breakpoints(initial="3rem", md="4rem"),
         border_bottom="1px solid var(--gray-4)",
+        class_name="content-enter",
     )
 
 @rx.page(title="Adogontour Service - Home")
@@ -188,23 +296,30 @@ def contatti():
         # Hero section per Contatti
         rx.box(
             rx.vstack(
-                rx.heading("Contatti", size="9", weight="bold"),
+                rx.heading(
+                    "Contatti",
+                    size=rx.breakpoints(initial="7", md="9"),
+                    weight="bold",
+                    class_name="hero-title",
+                ),
                 rx.text(
                     "Siamo a disposizione per informazioni, preventivi e supporto tecnico.", 
-                    size="6", 
+                    size=rx.breakpoints(initial="4", md="6"),
                     color_scheme="gray", 
                     text_align="center", 
-                    max_width="700px"
+                    max_width="700px",
+                    class_name="hero-subtitle",
                 ),
                 align_items="center",
                 spacing="4",
             ),
-            padding_y="6rem",
+            padding_y=rx.breakpoints(initial="3.5rem", md="6rem"),
             width="100%",
             background_image="linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('/fari-magazzino.jpeg')",
             background_position="50% 30%",
             background_size="cover",
             border_bottom="1px solid var(--gray-5)",
+            class_name="page-hero",
         ),
         
         # Contenitore principale delle informazioni di contatto
@@ -214,18 +329,18 @@ def contatti():
                 rx.card(
                     rx.vstack(
                         rx.icon("mail", size=50, color="var(--accent-9)"),
-                        rx.heading("Email", size="6"),
+                        rx.heading("Email", size=rx.breakpoints(initial="5", md="6")),
                         rx.text("Scrivici per richiedere un preventivo o per dettagli sui nostri servizi.", color_scheme="gray", text_align="center"),
                         rx.link(
                             "service@adogontour.it", 
                             href="mailto:service@adogontour.it", 
                             color="var(--accent-11)", 
                             weight="bold", 
-                            size="5"
+                            size=rx.breakpoints(initial="4", md="5")
                         ),
                         align_items="center",
                         spacing="4",
-                        padding="2rem",
+                        padding=rx.breakpoints(initial="1.5rem", md="2rem"),
                     ),
                     width="100%",
                     max_width="400px",
@@ -237,18 +352,18 @@ def contatti():
                 rx.card(
                     rx.vstack(
                         rx.icon("phone", size=50, color="var(--accent-9)"),
-                        rx.heading("Telefono", size="6"),
+                        rx.heading("Telefono", size=rx.breakpoints(initial="5", md="6")),
                         rx.text("Chiamaci per urgenze o per parlare direttamente con un nostro responsabile.", color_scheme="gray", text_align="center"),
                         rx.link(
                             "+39 366 817 1000",  # Inserisci qui il numero reale
                             href="tel:+393668171000", 
                             color="var(--accent-11)", 
                             weight="bold", 
-                            size="5"
+                            size=rx.breakpoints(initial="4", md="5")
                         ),
                         align_items="center",
                         spacing="4",
-                        padding="2rem",
+                        padding=rx.breakpoints(initial="1.5rem", md="2rem"),
                     ),
                     width="100%",
                     max_width="400px",
@@ -256,17 +371,17 @@ def contatti():
                     _hover={"transform": "translateY(-5px)", "transition": "transform 0.3s ease"},
                 ),
                 
-                direction={"base": "column", "md": "row"},
-                spacing="8",
+                direction=rx.breakpoints(initial="column", md="row"),
+                spacing=rx.breakpoints(initial="5", md="8"),
                 justify="center",
                 align_items="center",
                 width="100%",
-                padding_y="5rem",
+                padding_y=rx.breakpoints(initial="3rem", md="5rem"),
             ),
             width="100%",
             max_width="1000px",
             margin="0 auto",
-            padding_x=["2rem", "2rem", "0"],
+            padding_x=rx.breakpoints(initial="1.25rem", sm="2rem", md="0"),
         ),
 
         spacing="0",
@@ -282,23 +397,30 @@ def chi_siamo():
         # Hero section per Chi Siamo
         rx.box(
             rx.vstack(
-                rx.heading("Chi Siamo", size="9", weight="bold"),
+                rx.heading(
+                    "Chi Siamo",
+                    size=rx.breakpoints(initial="7", md="9"),
+                    weight="bold",
+                    class_name="hero-title",
+                ),
                 rx.text(
                     "Venti anni nel settore degli eventi live, scopri chi siamo.", 
-                    size="6", 
+                    size=rx.breakpoints(initial="4", md="6"),
                     color_scheme="gray", 
                     text_align="center", 
-                    max_width="700px"
+                    max_width="700px",
+                    class_name="hero-subtitle",
                 ),
                 align_items="center",
                 spacing="4",
             ),
-            padding_y="6rem",
+            padding_y=rx.breakpoints(initial="3.5rem", md="6rem"),
             width="100%",
             background_image="linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('/about-bg.jpeg')",
             background_position="50% 30%",
             background_size="cover",
             border_bottom="1px solid var(--gray-5)",
+            class_name="page-hero",
         ),
 
         # Contenitore principale dei contenuti
@@ -307,9 +429,9 @@ def chi_siamo():
                 # Blocco 1: Le Radici e gli Eventi
                 rx.flex(
                     rx.vstack(
-                        rx.heading("Le Nostre Radici", size="7", color="var(--accent-11)"),
-                        rx.text("Adogontour Service nasce nel 2007 a Cuneo. Nel corso degli anni si afferma come punto di riferimento per la fornitura tecnica nella provincia e non solo.", size="5", color_scheme="gray", line_height="1.6"),
-                        rx.text("Dai numerosi eventi sul territorio, fino al supporto di rassegne come Ted X Cuneo, la nostra esperienza sul campo ci permette di affrontare e risolvere ogni tipo di sfida tecnica.", size="5", color_scheme="gray", line_height="1.6"),
+                        rx.heading("Le Nostre Radici", size=rx.breakpoints(initial="5", md="7"), color="var(--accent-11)"),
+                        rx.text("Adogontour Service nasce nel 2007 a Cuneo. Nel corso degli anni si afferma come punto di riferimento per la fornitura tecnica nella provincia e non solo.", size=rx.breakpoints(initial="3", md="5"), color_scheme="gray", line_height="1.6"),
+                        rx.text("Dai numerosi eventi sul territorio, fino al supporto di rassegne come Ted X Cuneo, la nostra esperienza sul campo ci permette di affrontare e risolvere ogni tipo di sfida tecnica.", size=rx.breakpoints(initial="3", md="5"), color_scheme="gray", line_height="1.6"),
                         spacing="4",
                         align_items="start",
                         flex="1",
@@ -318,17 +440,17 @@ def chi_siamo():
                         rx.icon("history", size=100, color="var(--accent-9)"),
                         background="var(--gray-3)",
                         border_radius="1rem",
-                        padding="3rem",
+                        padding=rx.breakpoints(initial="2rem", md="3rem"),
                         flex="1",
-                        min_width="250px",
+                        min_width=rx.breakpoints(initial="0", md="250px"),
                         width="100%",
                         box_shadow="0 10px 30px rgba(0,0,0,0.3)",
                     ),
-                    direction={"base": "column", "md": "row"},
+                    direction=rx.breakpoints(initial="column", md="row"),
                     spacing="7",
                     align_items="center",
                     width="100%",
-                    padding_y="4rem",
+                    padding_y=rx.breakpoints(initial="3rem", md="4rem"),
                     border_bottom="1px solid var(--gray-4)",
                 ),
 
@@ -338,32 +460,32 @@ def chi_siamo():
                         rx.icon("rocket", size=100, color="var(--accent-9)"),
                         background="var(--gray-3)",
                         border_radius="1rem",
-                        padding="3rem",
+                        padding=rx.breakpoints(initial="2rem", md="3rem"),
                         flex="1",
-                        min_width="250px",
+                        min_width=rx.breakpoints(initial="0", md="250px"),
                         width="100%",
                         box_shadow="0 10px 30px rgba(0,0,0,0.3)",
                     ),
                     rx.vstack(
-                        rx.heading("Evoluzione e Innovazione", size="7", color="var(--accent-11)"),
-                        rx.text("Oggi, pur mantenendo le proprie radici, Adogontour è un service che punta alla massima efficienza attraverso la tecnologia e un approccio analitico ai flussi di lavoro.", size="5", color_scheme="gray", line_height="1.6"),
-                        rx.text("Gestiamo l'intera catena logistica con strumenti digitali proprietari per ottimizzare l'inventario e la gestione del magazzino.", size="5", color_scheme="gray", line_height="1.6"),
-                        rx.text("Lavoriamo con standard industriali e console digitali di altissimo livello (DiGiCo, Chamsys, HK Audio) per garantire sempre stabilità e scalabilità in ogni produzione.", size="5", color_scheme="gray", line_height="1.6"),
+                        rx.heading("Evoluzione e Innovazione", size=rx.breakpoints(initial="5", md="7"), color="var(--accent-11)"),
+                        rx.text("Oggi, pur mantenendo le proprie radici, Adogontour è un service che punta alla massima efficienza attraverso la tecnologia e un approccio analitico ai flussi di lavoro.", size=rx.breakpoints(initial="3", md="5"), color_scheme="gray", line_height="1.6"),
+                        rx.text("Gestiamo l'intera catena logistica con strumenti digitali proprietari per ottimizzare l'inventario e la gestione del magazzino.", size=rx.breakpoints(initial="3", md="5"), color_scheme="gray", line_height="1.6"),
+                        rx.text("Lavoriamo con standard industriali e console digitali di altissimo livello (DiGiCo, Chamsys, HK Audio) per garantire sempre stabilità e scalabilità in ogni produzione.", size=rx.breakpoints(initial="3", md="5"), color_scheme="gray", line_height="1.6"),
                         spacing="4",
                         align_items="start",
                         flex="1",
                     ),
-                    direction={"base": "column", "md": "row-reverse"},
+                    direction=rx.breakpoints(initial="column", md="row-reverse"),
                     spacing="7",
                     align_items="center",
                     width="100%",
-                    padding_y="4rem",
+                    padding_y=rx.breakpoints(initial="3rem", md="4rem"),
                 ),
 
                 width="100%",
                 max_width="1100px",
                 margin="0 auto",
-                padding_x=["2rem", "2rem", "0"],
+                padding_x=rx.breakpoints(initial="1.25rem", sm="2rem", md="0"),
             ),
             width="100%",
         ),
@@ -371,13 +493,13 @@ def chi_siamo():
         # Call to Action finale
         rx.box(
             rx.vstack(
-                rx.heading("Affidati alla nostra esperienza", size="7"),
-                rx.text("Decenni di storia uniti alle tecnologie più avanzate per il tuo evento.", size="5", color_scheme="gray"),
-                rx.button("Richiedi disponibilità", size="4", radius="full", margin_top="1rem", on_click=rx.redirect("/contatti")),
+                rx.heading("Affidati alla nostra esperienza", size=rx.breakpoints(initial="5", md="7")),
+                rx.text("Decenni di storia uniti alle tecnologie più avanzate per il tuo evento.", size=rx.breakpoints(initial="3", md="5"), color_scheme="gray"),
+                rx.button("Richiedi disponibilità", size=rx.breakpoints(initial="3", md="4"), radius="full", margin_top="1rem", on_click=rx.redirect("/contatti")),
                 align_items="center",
                 spacing="4"
             ),
-            padding_y="6rem",
+            padding_y=rx.breakpoints(initial="3.5rem", md="6rem"),
             width="100%",
             text_align="center",
             background="var(--gray-2)", 
@@ -396,23 +518,30 @@ def servizi():
         # Hero section specifica per i servizi
         rx.box(
             rx.vstack(
-                rx.heading("I Nostri Servizi", size="9", weight="bold"),
+                rx.heading(
+                    "I Nostri Servizi",
+                    size=rx.breakpoints(initial="7", md="9"),
+                    weight="bold",
+                    class_name="hero-title",
+                ),
                 rx.text(
                     "Soluzioni tecniche complete per eventi dal vivo, dalla pre-produzione alla realizzazione in loco.", 
-                    size="6", 
+                    size=rx.breakpoints(initial="4", md="6"),
                     color_scheme="gray", 
                     text_align="center", 
-                    max_width="700px"
+                    max_width="700px",
+                    class_name="hero-subtitle",
                 ),
                 align_items="center",
                 spacing="4",
             ),
-            padding_y="6rem",
+            padding_y=rx.breakpoints(initial="3.5rem", md="6rem"),
             width="100%",
             background_image="linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), url('/services-bg.jpeg')",
             background_position="50% 70%",
             background_size="cover",
             border_bottom="1px solid var(--gray-5)",
+            class_name="page-hero",
         ),
 
         # Contenitore principale dei servizi
@@ -426,7 +555,7 @@ def servizi():
                 ),
                 service_detail_block(
                     title="Progettazione e Rendering",
-                    description=rx.text(
+                    description=rx.fragment(
                         "La fase preparatoria è fondamentale. Progettiamo nel dettaglio tutti i sistemi necessari, realizzando disegni tecnici accurati e rendering 3D per previsualizzare il palco e ottimizzare le risorse. Operiamo in stretta collaborazione con ",
                         rx.link("Scenic Vision Studio", href="http://scenicvisionstudio.it", is_external=True, color="var(--accent-9)", weight="bold", underline="always"),
                         "."
@@ -443,7 +572,7 @@ def servizi():
                 width="100%",
                 max_width="1100px", # Mantiene i contenuti ben centrati e leggibili
                 margin="0 auto",
-                padding_x=["2rem", "2rem", "0"],
+                padding_x=rx.breakpoints(initial="1.25rem", sm="2rem", md="0"),
             ),
             width="100%",
         ),
@@ -451,13 +580,13 @@ def servizi():
         # Call to Action finale
         rx.box(
             rx.vstack(
-                rx.heading("Hai un progetto in mente?", size="7"),
-                rx.text("Contattaci per discutere le tue necessità tecniche e richiedere un preventivo.", size="5", color_scheme="gray"),
-                rx.button("Richiedi un Preventivo", size="4", radius="full", margin_top="1rem", on_click=rx.redirect("/contatti")),
+                rx.heading("Hai un progetto in mente?", size=rx.breakpoints(initial="5", md="7")),
+                rx.text("Contattaci per discutere le tue necessità tecniche e richiedere un preventivo.", size=rx.breakpoints(initial="3", md="5"), color_scheme="gray"),
+                rx.button("Richiedi un Preventivo", size=rx.breakpoints(initial="3", md="4"), radius="full", margin_top="1rem", on_click=rx.redirect("/contatti")),
                 align_items="center",
                 spacing="4"
             ),
-            padding_y="6rem",
+            padding_y=rx.breakpoints(initial="3.5rem", md="6rem"),
             width="100%",
             text_align="center",
             background="var(--gray-2)", # Sfondo leggermente staccato dal nero puro
@@ -477,6 +606,7 @@ def noleggio():
 
 # The theme definition handles all the global styling
 app = rx.App(
+    stylesheets=["/styles.css"],
     theme=rx.theme(
         appearance="dark",
         has_background=True,
